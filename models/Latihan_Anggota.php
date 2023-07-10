@@ -67,5 +67,13 @@ class Latihan_Anggota {
             return false;
         }
     }
+    public function confirmDelete()
+    {
+        return "<script>
+        function confirmDelete() {
+            return confirm('Apakah Anda yakin ingin menghapus latihan anggota ini?');
+        }
+    </script>";
+    }
 }
 ?>

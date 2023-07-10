@@ -54,4 +54,12 @@ class Pembelian {
 
         return $this->conn->query($sql);
     }
+    public function confirmDelete()
+    {
+        return "<script>
+        function confirmDelete() {
+            return confirm('Apakah Anda yakin ingin menghapus pembelian ini?');
+        }
+    </script>";
+    }
 }

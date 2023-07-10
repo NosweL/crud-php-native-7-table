@@ -67,5 +67,13 @@ class Penilaian {
             return false;
         }
     }
+    public function confirmDelete()
+    {
+        return "<script>
+        function confirmDelete() {
+            return confirm('Apakah Anda yakin ingin menghapus penilaian ini?');
+        }
+    </script>";
+    }
 }
 ?>

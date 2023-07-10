@@ -4,6 +4,9 @@ require_once './../../models/Suplemen.php';
 
 $suplemenModel = new Suplemen($conn);
 $suplemenList = $suplemenModel->getAllSuplemen();
+
+$confirmDeleteScript = $suplemenModel->confirmDelete();
+echo $confirmDeleteScript;
 ?>
 
 <!DOCTYPE html>
@@ -66,11 +69,11 @@ $suplemenList = $suplemenModel->getAllSuplemen();
         <?php foreach ($suplemenList as $suplemen) { ?>
             <tr>
                 <td><?php echo $suplemen['nama']; ?></td>
-                <td><?php echo $suplemen['harga']; ?></td>
+                <td><?php echo $suplemenModel->formatRupiah($suplemen['harga']); ?></td>
                 <td><?php echo $suplemen['stok']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $suplemen['id_suplemen']; ?>">Edit</a>
-                    <a href="delete.php?id=<?php echo $suplemen['id_suplemen']; ?>">Hapus</a>
+                    <a href="delete.php?id=<?php echo $suplemen['id_suplemen']; ?>"class="delete-link" onclick="return confirmDelete()">Hapus</a>
                 </td>
             </tr>
         <?php } ?>

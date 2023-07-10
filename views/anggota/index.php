@@ -4,6 +4,9 @@ require_once './../../models/Anggota.php';
 
 $anggotaModel = new Anggota($conn);
 $anggotaList = $anggotaModel->getAllAnggota();
+
+$confirmDeleteScript = $anggotaModel->confirmDelete();
+echo $confirmDeleteScript;
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +77,7 @@ $anggotaList = $anggotaModel->getAllAnggota();
                 <td><?php echo $anggota['telepon']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $anggota['id_anggota']; ?>">Edit</a>
-                    <a href="delete.php?id=<?php echo $anggota['id_anggota']; ?>">Hapus</a>
+                    <a href="delete.php?id=<?php echo $anggota['id_anggota']; ?>" class="delete-link" onclick="return confirmDelete()">Hapus</a>
                 </td>
             </tr>
         <?php } ?>

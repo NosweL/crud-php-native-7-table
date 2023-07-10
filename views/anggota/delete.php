@@ -5,6 +5,15 @@ require_once './../../models/Anggota.php';
 $id = $_GET['id'];
 
 $anggotaModel = new Anggota($conn);
+
+// Pengecekan apakah data anggota digunakan di tabel lain
+$isUsed = $anggotaModel->isAnggotaUsed($id);
+if ($isUsed) {
+    echo '<script>alert("Data anggota sedang digunakan di tabel lain."); 
+    window.location.href = "index.php";</script>';
+    exit();
+}
+
 $result = $anggotaModel->hapusAnggota($id);
 
 if ($result) {

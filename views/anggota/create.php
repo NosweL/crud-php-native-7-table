@@ -2,6 +2,12 @@
 require_once './../../koneksi.php';
 require_once './../../models/Anggota.php';
 
+$namaError = '';
+$teleponError = '';
+
+$nama = '';
+$telepon = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = $_POST['nama'];
     $jenisKelamin = $_POST['jenis_kelamin'];
@@ -9,18 +15,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $alamat = $_POST['alamat'];
     $telepon = $_POST['telepon'];
 
-    $anggotaModel = new Anggota($conn);
-    $result = $anggotaModel->tambahAnggota($nama, $jenisKelamin, $tanggalLahir, $alamat, $telepon);
+    // Validasi kolom nama (hanya karakter huruf dan spasi)
+    if (!preg_match('/^[A-Za-z ]+$/', $nama)) {
+        $namaError = 'Kolom nama hanya dapat diisi dengan huruf dan spasi.';
+    }
 
-    if ($result) {
-        header('Location: index.php');
-        exit();
-    } else {
-        echo 'Gagal menambahkan anggota.';
+    // Validasi kolom telepon (hanya angka)
+    if (!ctype_digit($telepon)) {
+        $teleponError = 'Kolom telepon hanya dapat diisi dengan angka.';
+    }
+
+    if (empty($namaError) && empty($teleponError)) {
+        $anggotaModel = new Anggota($conn);
+        $result = $anggotaModel->tambahAnggota($nama, $jenisKelamin, $tanggalLahir, $alamat, $telepon);
+
+        if ($result) {
+            header('Location: index.php');
+            exit();
+        } else {
+            echo 'Gagal menambahkan anggota.';
+        }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -94,7 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form method="POST" action="">
         <label>Nama:</label><br>
-        <input type="text" name="nama" required><br><br>
+        <input type="text" name="nama" value="<?php echo htmlspecialchars($nama); ?>" required><br>
+        <div style="color: red;"><?php echo $namaError; ?></div><br>
 
         <label>Jenis Kelamin:</label><br>
         <select name="jenis_kelamin" required>
@@ -109,7 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <textarea name="alamat" required></textarea><br><br>
 
         <label>Telepon:</label><br>
-        <input type="text" name="telepon" required><br><br>
+        <input type="text" name="telepon" value="<?php echo htmlspecialchars($telepon); ?>" required><br>
+        <div style="color: red;"><?php echo $teleponError; ?></div><br>
 
         <div class="button-group">
             <input type="submit" value="Simpan">

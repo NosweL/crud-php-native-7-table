@@ -11,6 +11,9 @@ $suplemenModel = new Suplemen($conn);
 $pembelianList = $pembelianModel->getAllPembelian();
 $anggotaList = $anggotaModel->getAllAnggota();
 $suplemenList = $suplemenModel->getAllSuplemen();
+
+$confirmDeleteScript = $pembelianModel->confirmDelete();
+echo $confirmDeleteScript;
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +85,7 @@ $suplemenList = $suplemenModel->getAllSuplemen();
                 <td><?php echo $pembelian['jumlah']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $pembelian['id_pembelian']; ?>">Edit</a>
-                    <a href="delete.php?id=<?php echo $pembelian['id_pembelian']; ?>">Hapus</a>
+                    <a href="delete.php?id=<?php echo $pembelian['id_pembelian']; ?>"class="delete-link" onclick="return confirmDelete()">Hapus</a>
                 </td>
             </tr>
         <?php } ?>

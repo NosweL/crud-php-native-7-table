@@ -9,6 +9,9 @@ $penilaianList = $penilaianModel->getAllPenilaian();
 
 $anggotaModel = new Anggota($conn);
 $latihanModel = new Latihan($conn);
+
+$confirmDeleteScript = $penilaianModel->confirmDelete();
+echo $confirmDeleteScript;
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +81,7 @@ $latihanModel = new Latihan($conn);
                 <td><?php echo $penilaian['nilai']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $penilaian['id_penilaian']; ?>">Edit</a>
-                    <a href="delete.php?id=<?php echo $penilaian['id_penilaian']; ?>">Hapus</a>
+                    <a href="delete.php?id=<?php echo $penilaian['id_penilaian']; ?>"class="delete-link" onclick="return confirmDelete()">Hapus</a>
                 </td>
             </tr>
         <?php } ?>

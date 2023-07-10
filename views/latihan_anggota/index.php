@@ -8,6 +8,9 @@ $latihanAnggotaModel = new Latihan_Anggota($conn);
 $anggotaModel = new Anggota($conn);
 $latihanModel = new Latihan($conn);
 
+$confirmDeleteScript = $latihanAnggotaModel->confirmDelete();
+echo $confirmDeleteScript;
+
 $latihanAnggotaList = $latihanAnggotaModel->getAllLatihanAnggota();
 ?>
 
@@ -89,7 +92,7 @@ $latihanAnggotaList = $latihanAnggotaModel->getAllLatihanAnggota();
                 <td><?php echo $latihanAnggota['hari']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $latihanAnggota['id_latihan_anggota']; ?>">Edit</a>
-                    <a href="delete.php?id=<?php echo $latihanAnggota['id_latihan_anggota']; ?>">Hapus</a>
+                    <a href="delete.php?id=<?php echo $latihanAnggota['id_latihan_anggota']; ?>"class="delete-link" onclick="return confirmDelete()">Hapus</a>
                 </td>
             </tr>
         <?php } ?>

@@ -19,19 +19,40 @@ if (empty($pembelian)) {
     exit();
 }
 
+// Jumlah stok awal sebelum diedit
+$stokAwal = $pembelian['jumlah'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_anggota = $_POST['id_anggota'];
     $id_suplemen = $_POST['id_suplemen'];
     $tanggal_pembelian = $_POST['tanggal_pembelian'];
     $jumlah = $_POST['jumlah'];
 
-    $result = $pembelianModel->updatePembelian($id, $id_anggota, $id_suplemen, $tanggal_pembelian, $jumlah);
+    // Mendapatkan stok suplemen berdasarkan id_suplemen
+    $suplemen = $suplemenModel->getSuplemenById($id_suplemen);
+    $stok = $suplemen['stok'];
 
-    if ($result) {
-        header('Location: index.php');
-        exit();
+    // Mengembalikan stok yang diedit sebelum dikurangi
+    $stok += $stokAwal;
+
+    // Memeriksa apakah jumlah pembelian melebihi stok
+    if ($jumlah > $stok) {
+        echo '<script>alert("Stok suplemen tidak mencukupi.");</script>';
     } else {
-        echo 'Gagal mengupdate pembelian.';
+        // Mengurangi stok berdasarkan jumlah baru
+        $stok -= $jumlah;
+
+        $result = $pembelianModel->updatePembelian($id, $id_anggota, $id_suplemen, $tanggal_pembelian, $jumlah);
+
+        if ($result) {
+            // Update stok suplemen setelah berhasil mengubah pembelian
+            $suplemenModel->updateStokSuplemen($id_suplemen, $stok);
+
+            header('Location: index.php');
+            exit();
+        } else {
+            echo 'Gagal mengupdate pembelian.';
+        }
     }
 }
 ?>

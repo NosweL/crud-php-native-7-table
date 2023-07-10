@@ -13,14 +13,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tanggal_pembelian = $_POST['tanggal_pembelian'];
     $jumlah = $_POST['jumlah'];
 
-    $pembelianModel = new Pembelian($conn);
-    $result = $pembelianModel->tambahPembelian($id_anggota, $id_suplemen, $tanggal_pembelian, $jumlah);
+    // Mendapatkan stok suplemen berdasarkan id_suplemen
+    $suplemen = $suplemenModel->getSuplemenById($id_suplemen);
+    $stok = $suplemen['stok'];
 
-    if ($result) {
-        header('Location: index.php');
-        exit();
+    // Memeriksa apakah jumlah pembelian melebihi stok
+    if ($jumlah > $stok) {
+        echo '<script>alert("Stok suplemen tidak mencukupi.");</script>';
     } else {
-        echo 'Gagal menambahkan pembelian.';
+        $pembelianModel = new Pembelian($conn);
+        $result = $pembelianModel->tambahPembelian($id_anggota, $id_suplemen, $tanggal_pembelian, $jumlah);
+
+        if ($result) {
+            // Mengurangi stok suplemen setelah pembelian sukses
+            $newStok = $stok - $jumlah;
+            $suplemenModel->updateStokSuplemen($id_suplemen, $newStok);
+
+            header('Location: index.php');
+            exit();
+        } else {
+            echo 'Gagal menambahkan pembelian.';
+        }
     }
 }
 

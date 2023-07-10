@@ -61,5 +61,12 @@ class Jadwal_Latihan {
             return false;
         }
     }
+    public function confirmDelete()
+    {
+        return "<script>
+        function confirmDelete() {
+            return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');
+        }
+    </script>";
+    }
 }
-?>

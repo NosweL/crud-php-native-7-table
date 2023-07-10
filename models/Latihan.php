@@ -20,10 +20,11 @@ class Latihan {
 
         return $latihan;
     }
+    
     public function getLatihanById($id) {
         $sql = "SELECT * FROM Latihan WHERE id_latihan = '$id'";
         $result = $this->conn->query($sql);
-    
+
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row;
@@ -56,12 +57,38 @@ class Latihan {
 
     // Fungsi untuk menghapus latihan
     public function hapusLatihan($id_latihan) {
+        $isUsed = $this->isLatihanUsed($id_latihan);
+
+        if ($isUsed) {
+            return false;
+        }
+
         $sql = "DELETE FROM Latihan WHERE id_latihan='$id_latihan'";
 
         if ($this->conn->query($sql) === TRUE) {
             return true;
         } else {
+            return 'Gagal menghapus latihan.';
+        }
+    }
+
+    // Fungsi untuk memeriksa apakah latihan digunakan dalam jadwal latihan
+    public function isLatihanUsed($id_latihan) {
+        $sql = "SELECT * FROM Jadwal_Latihan WHERE id_latihan='$id_latihan'";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            return true;
+        } else {
             return false;
         }
+    }
+    public function confirmDelete()
+    {
+        return "<script>
+        function confirmDelete() {
+            return confirm('Apakah Anda yakin ingin menghapus latihan ini?');
+        }
+    </script>";
     }
 }

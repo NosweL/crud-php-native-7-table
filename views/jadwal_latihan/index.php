@@ -10,6 +10,9 @@ $jadwal_latihan = new Jadwal_Latihan($conn);
 // Retrieve all jadwal latihan using the getAllJadwalLatihan() method
 $jadwalLatihanList = $jadwal_latihan->getAllJadwalLatihan();
 
+$confirmDeleteScript = $jadwal_latihan->confirmDelete();
+echo $confirmDeleteScript;
+
 // Create a new instance of Latihan and pass the $conn object to the constructor
 $latihanModel = new Latihan($conn);
 
@@ -79,7 +82,7 @@ $latihanModel = new Latihan($conn);
                 <td><?php echo $jadwalLatihan['jam']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $jadwalLatihan['id_jadwal']; ?>">Edit</a>
-                    <a href="delete.php?id=<?php echo $jadwalLatihan['id_jadwal']; ?>">Hapus</a>
+                    <a href="delete.php?id=<?php echo $jadwalLatihan['id_jadwal']; ?>" class="delete-link" onclick="return confirmDelete()">Hapus</a>
                 </td>
             </tr>
         <?php } ?>

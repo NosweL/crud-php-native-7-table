@@ -4,6 +4,9 @@ require_once './../../models/Latihan.php';
 
 $latihanModel = new Latihan($conn);
 $latihanList = $latihanModel->getAllLatihan();
+
+$confirmDeleteScript = $latihanModel->confirmDelete();
+echo $confirmDeleteScript;
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +73,7 @@ $latihanList = $latihanModel->getAllLatihan();
                 <td><?php echo $latihan['nama_alat']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $latihan['id_latihan']; ?>">Edit</a>
-                    <a href="delete.php?id=<?php echo $latihan['id_latihan']; ?>">Hapus</a>
+                    <a href="delete.php?id=<?php echo $latihan['id_latihan']; ?>"class="delete-link" onclick="return confirmDelete()">Hapus</a>
                 </td>
             </tr>
         <?php } ?>

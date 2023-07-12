@@ -22,6 +22,9 @@ echo $confirmDeleteScript;
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
+            background-image: url('./../../img/whitegym.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         h1 {

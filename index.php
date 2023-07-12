@@ -113,7 +113,6 @@
                 <li><a href="views/pembelian"><i class="fas fa-shopping-cart"></i> Pembelian</a></li>
             </ul>
         </div>
-
         <div class="content">
             <div class="header">
                 <h1>The Pain You Feel Today,<br> Will Be The Strength You Feel Tomorrow.</h1>
